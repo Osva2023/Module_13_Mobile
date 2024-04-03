@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Image, Button, StyleSheet } from 'react-native';
+import styles from '../styles/HeaderStyle';
 
 const Header = () => {
   return (
@@ -10,23 +11,11 @@ const Header = () => {
         style={styles.logo}
       />
       {/* Botón de Logout */}
-      <Button title="Logout" onPress={() => console.log('Logout')} />
+      <Button title="Logout" onPress={() => console.log('Logout')} color={styles.button.backgroundColor}/>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 10,
-    backgroundColor: '#fff', // Estilo opcional para el fondo del header
-  },
-  logo: {
-    width: 100,
-    height: 50,
-  },
-});
+
 
 export default Header;
