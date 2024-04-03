@@ -1,24 +1,24 @@
-import React from 'react';
-import { View, Button, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text } from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import styles from "../styles/FooterStyle";
 
 const Footer = () => {
   return (
     <View style={styles.container}>
-      {/* Botones del Footer */}
-      <Button title="Restaurants" onPress={() => console.log('Navigate to Restaurants')} />
-      <Button title="Order History" onPress={() => console.log('Navigate to Order History')} />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => console.log("Navigate to Restaurants")}>
+          <Icon name="cutlery" size={30} color="#000" />
+        </TouchableOpacity>
+        <Text style={styles.buttonText}>Restaurants</Text>
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => console.log("Navigate to Order History")}>
+          <Icon name="history" size={30} color="#000" />
+        </TouchableOpacity>
+        <Text style={styles.buttonText}>Order History</Text>
+      </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingVertical: 10,
-    backgroundColor: '#fff', // Estilo opcional para el fondo del footer
-  },
-});
 
 export default Footer;
