@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext,useState } from "react";
 import {
   View,
   Text,
@@ -11,8 +11,10 @@ import {
 import AppLogoV2 from "../assets/AppLogoV2.png";
 import styles from "../styles/LoginStyle";
 import handleLogin from "../services/handleLogin";
+import AuthContext from "../services/AuthContext";
 
 const Login = ({ navigation }) => {
+  const { setUser } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -42,7 +44,7 @@ const Login = ({ navigation }) => {
 />
         <TouchableOpacity
           style={[styles.button, { backgroundColor: 'rgba(218, 88, 59, 1)' }]}
-          onPress={() => handleLogin(email, password, navigation)}
+          onPress={() => handleLogin(email, password, navigation, setUser)}
         >
           <Text style={styles.buttonText}>Log in</Text>
         </TouchableOpacity>
