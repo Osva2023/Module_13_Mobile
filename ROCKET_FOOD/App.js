@@ -9,6 +9,7 @@ import Login from './components/Login';
 import Restaurants from './components/Restaurants';
 import RestaurantMenu from './components/RestaurantMenu'; // Import the RestaurantMenu component
 import AuthContext from './services/AuthContext';
+import Orders from './components/Orders';
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
           <Stack.Screen name="Restaurants" component={Restaurants} />
           <Stack.Screen name="RestaurantMenu" component={RestaurantMenu} />
+          <Stack.Screen name="Orders" component={Orders} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthContext.Provider>
