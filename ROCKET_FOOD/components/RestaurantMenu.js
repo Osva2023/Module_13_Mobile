@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { View, Text, TouchableOpacity, Button } from "react-native";
+import { Modal, View, Text, TouchableOpacity, Button } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import AuthContext from "../services/AuthContext";
 import Layout from "./Layout";
@@ -8,6 +8,8 @@ import styles from "../styles/RestaurantMenuStyles";
 const RestaurantMenu = ({ route }) => {
   const { menu, restaurant } = route.params;
   const { user } = useContext(AuthContext);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [order, setOrder] = useState(null);
   const [quantities, setQuantities] = useState({});
 
   const convertToUSD = (price) => {
@@ -19,6 +21,7 @@ const RestaurantMenu = ({ route }) => {
       .filter((item) => quantities[item.id] > 0)
       .map((item) => ({
         id: item.id,
+        name: item.name,
         quantity: quantities[item.id],
         price: item.cost,
       }));
@@ -28,21 +31,105 @@ const RestaurantMenu = ({ route }) => {
       0
     );
 
-    const order = {
-        customer_id: user.customer_id,
-      restaurantId: restaurant.id, // Include the restaurant id
+    setOrder({
+      customer_id: user.customer_id,
+      restaurantId: restaurant.id,
       items: orderItems,
       total: total,
-    };
-
-    console.log(order); // Log the order for now
+    });
+    setModalVisible(true);
   };
-
-  // ...
+  const handleConfirmation = () => {
+    console.log('Order confirmed');
+  };
 
   return (
     <Layout>
       <View style={styles.container}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <View
+              style={{
+                backgroundColor: "white",
+                borderRadius: 20,
+                padding: 35,
+                alignItems: "center",
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.25,
+                shadowRadius: 4,
+                elevation: 5,
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  width: "100%",
+                  backgroundColor: "black",
+                  padding: 10,
+                  borderTopStartRadius: 20,
+                  borderTopEndRadius: 20,
+                }}
+              >
+                <Text style={{ color: "white", fontSize: 18 }}>
+                  Order Confirmation
+                </Text>
+                <TouchableOpacity
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text style={{ color: "white", fontSize: 18 }}>X</Text>
+                </TouchableOpacity>
+              </View>
+              <Text style={{ fontWeight: "bold", fontSize: 18, marginTop: 10 }}>
+                Order Summary
+              </Text>
+              {order &&
+                order.items.map((item, index) => (
+                  <View
+                    key={index}
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      width: "100%",
+                      marginTop: 10,
+                    }}
+                  >
+                    <Text>{item.name}</Text>
+                    <Text>x{item.quantity}</Text>
+                    <Text>${convertToUSD(item.price)}</Text>
+                  </View>
+                ))}
+              <View
+                style={{
+                  borderBottomColor: "black",
+                  borderBottomWidth: 1,
+                  width: "100%",
+                  marginTop: 10,
+                }}
+              />
+              <Text style={{ marginTop: 10 }}>
+                Total: ${order && convertToUSD(order.total)}
+              </Text>
+              <View style={{ marginTop: 20 }}>
+        <TouchableOpacity style={styles.button} onPress={handleConfirmation}>
+          <Text style={styles.buttonText}>Confirm Order</Text>
+        </TouchableOpacity>
+      </View>
+            </View>
+          </View>
+        </Modal>
+
         <View style={styles.detailsContainer}>
           <Text style={styles.header}>Restaurant Menu</Text>
           <Text>{restaurant.name}</Text>
