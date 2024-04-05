@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import AuthContext from "../services/AuthContext";
 import Layout from "./Layout";
 import styles from "../styles/RestaurantMenuStyles";
-
+import handleConfirmation from "../services/handleConfirmation";
 const RestaurantMenu = ({ route }) => {
   const { menu, restaurant } = route.params;
   const { user } = useContext(AuthContext);
@@ -39,9 +39,9 @@ const RestaurantMenu = ({ route }) => {
     });
     setModalVisible(true);
   };
-  const handleConfirmation = () => {
-    console.log('Order confirmed');
-  };
+ const onConfirmOrder = () => {
+  handleConfirmation(restaurant.id, user.customer_id, order.items);
+};
 
   return (
     <Layout>
@@ -122,7 +122,7 @@ const RestaurantMenu = ({ route }) => {
                 Total: ${order && convertToUSD(order.total)}
               </Text>
               <View style={{ marginTop: 20 }}>
-        <TouchableOpacity style={styles.button} onPress={handleConfirmation}>
+        <TouchableOpacity style={styles.button} onPress={onConfirmOrder}>
           <Text style={styles.buttonText}>Confirm Order</Text>
         </TouchableOpacity>
       </View>
