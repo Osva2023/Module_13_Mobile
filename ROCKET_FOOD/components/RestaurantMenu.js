@@ -12,6 +12,7 @@ const RestaurantMenu = ({ route }) => {
   const [order, setOrder] = useState(null);
   const [quantities, setQuantities] = useState({});
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isOrderSuccesful, setIsOrderSuccesful] = useState(false);
   const convertToUSD = (price) => {
     const conversionRate = 0.01;
     return (price * conversionRate).toFixed(2);
@@ -41,8 +42,13 @@ const RestaurantMenu = ({ route }) => {
   };
   const onConfirmOrder = async () => {
     setIsProcessing(true);
-    await handleConfirmation(restaurant.id, user.customer_id, order.items);
+    const success = await handleConfirmation(
+      restaurant.id,
+      user.customer_id,
+      order.items
+    );
     setIsProcessing(false);
+    setIsOrderSuccesful(success);
   };
 
   return (
@@ -123,16 +129,23 @@ const RestaurantMenu = ({ route }) => {
               <Text style={{ marginTop: 10 }}>
                 Total: ${order && convertToUSD(order.total)}
               </Text>
-              <View style={{ marginTop: 20 }}>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={onConfirmOrder}
-                >
-                  <Text style={styles.buttonText}>
-                    {isProcessing ? "Processing Order..." : "Confirm Order"}
-                  </Text>
-                </TouchableOpacity>
-              </View>
+              {isOrderSuccesful ? (
+                <View style={{ alignItems: "center", marginTop: 20 }}>
+                  <Icon name="check-circle" size={24} color="green" />
+                  <Text>Thank you! Your order has been received</Text>
+                </View>
+              ) : (
+                <View style={{ marginTop: 20 }}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={onConfirmOrder}
+                  >
+                    <Text style={styles.buttonText}>
+                      {isProcessing ? "Processing Order..." : "Confirm Order"}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
           </View>
         </Modal>
