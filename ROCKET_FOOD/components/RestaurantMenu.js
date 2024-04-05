@@ -13,6 +13,7 @@ const RestaurantMenu = ({ route }) => {
   const [quantities, setQuantities] = useState({});
   const [isProcessing, setIsProcessing] = useState(false);
   const [isOrderSuccesful, setIsOrderSuccesful] = useState(false);
+  const [isOrderFailed, setIsOrderFailed] = useState(false);
   const convertToUSD = (price) => {
     const conversionRate = 0.01;
     return (price * conversionRate).toFixed(2);
@@ -49,6 +50,7 @@ const RestaurantMenu = ({ route }) => {
     );
     setIsProcessing(false);
     setIsOrderSuccesful(success);
+    setIsOrderFailed(!success);
   };
 
   return (
@@ -133,6 +135,21 @@ const RestaurantMenu = ({ route }) => {
                 <View style={{ alignItems: "center", marginTop: 20 }}>
                   <Icon name="check-circle" size={24} color="green" />
                   <Text>Thank you! Your order has been received</Text>
+                </View>
+              ) : isOrderFailed ? (
+                <View style={{ alignItems: "center", marginTop: 20 }}>
+                  <Icon name="times-circle" size={24} color="red" />
+                  <Text>
+                    Your order was not processed successfully. Please try again.
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={onConfirmOrder}
+                  >
+                    <Text style={styles.buttonText}>
+                      {isProcessing ? "Processing Order..." : "Confirm Order"}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               ) : (
                 <View style={{ marginTop: 20 }}>
