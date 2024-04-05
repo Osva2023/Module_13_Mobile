@@ -33,11 +33,15 @@ const Restaurants = ({ navigation }) => {
     EVS8142,
   ];
   
-  const handleRestaurantClick = async (id) => {
-    const fetchedMenu = await fetchRestaurantMenu(id);
-    console.log(fetchedMenu); // Add this line
-    navigation.navigate('RestaurantMenu', { menu: fetchedMenu });
-    setMenu(fetchedMenu);
+  const handleRestaurantClick = async (restaurant) => {
+    console.log('Restaurant:', restaurant); // Log the entire restaurant object
+    const fetchedMenu = await fetchRestaurantMenu(restaurant.id);
+    console.log('Fetched menu:', fetchedMenu); // Log the fetched menu
+    if (fetchedMenu.error) {
+      console.error(fetchedMenu.error);
+      return;
+    }
+    navigation.navigate('RestaurantMenu', { menu: fetchedMenu, restaurant });
   };
   function getRandomImage() {
     const randomIndex = Math.floor(Math.random() * images.length);
@@ -112,7 +116,7 @@ const Restaurants = ({ navigation }) => {
   renderItem={({ item }) => (
     <TouchableOpacity 
       style={styles.restaurantCardContainer}
-      onPress={() => handleRestaurantClick(item.id)}
+      onPress={() => handleRestaurantClick(item)}
     >
       <View style={styles.restaurantCard}>
         <Image style={styles.restaurantImage} source={item.photo} />
