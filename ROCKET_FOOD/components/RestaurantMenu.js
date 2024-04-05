@@ -11,7 +11,7 @@ const RestaurantMenu = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [order, setOrder] = useState(null);
   const [quantities, setQuantities] = useState({});
-
+  const [isProcessing, setIsProcessing] = useState(false);
   const convertToUSD = (price) => {
     const conversionRate = 0.01;
     return (price * conversionRate).toFixed(2);
@@ -39,9 +39,11 @@ const RestaurantMenu = ({ route }) => {
     });
     setModalVisible(true);
   };
- const onConfirmOrder = () => {
-  handleConfirmation(restaurant.id, user.customer_id, order.items);
-};
+  const onConfirmOrder = async () => {
+    setIsProcessing(true);
+    await handleConfirmation(restaurant.id, user.customer_id, order.items);
+    setIsProcessing(false);
+  };
 
   return (
     <Layout>
@@ -122,10 +124,15 @@ const RestaurantMenu = ({ route }) => {
                 Total: ${order && convertToUSD(order.total)}
               </Text>
               <View style={{ marginTop: 20 }}>
-        <TouchableOpacity style={styles.button} onPress={onConfirmOrder}>
-          <Text style={styles.buttonText}>Confirm Order</Text>
-        </TouchableOpacity>
-      </View>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={onConfirmOrder}
+                >
+                  <Text style={styles.buttonText}>
+                    {isProcessing ? "Processing Order..." : "Confirm Order"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </Modal>
