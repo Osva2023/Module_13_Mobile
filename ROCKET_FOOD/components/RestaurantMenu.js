@@ -5,6 +5,7 @@ import AuthContext from "../services/AuthContext";
 import Layout from "./Layout";
 import styles from "../styles/RestaurantMenuStyles";
 import handleConfirmation from "../services/handleConfirmation";
+import { convertToUSD } from "../services/currencyUtils";
 const RestaurantMenu = ({ route }) => {
   const { menu, restaurant } = route.params;
   const { user } = useContext(AuthContext);
@@ -14,10 +15,7 @@ const RestaurantMenu = ({ route }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isOrderSuccesful, setIsOrderSuccesful] = useState(false);
   const [isOrderFailed, setIsOrderFailed] = useState(false);
-  const convertToUSD = (price) => {
-    const conversionRate = 0.01;
-    return (price * conversionRate).toFixed(2);
-  };
+
   const createOrder = () => {
     const orderItems = menu
       .filter((item) => quantities[item.id] > 0)
