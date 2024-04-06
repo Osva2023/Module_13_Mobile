@@ -78,7 +78,7 @@ const Restaurants = ({ navigation }) => {
             { label: '5', value: '5' },
           ]}
           defaultValue={selectedRating}
-          containerStyle={{ height: 40 }}
+          containerStyle={{ height: 20 }}
           style={{ backgroundColor: '#fafafa' }}
           itemStyle={{
             justifyContent: 'flex-start'
