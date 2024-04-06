@@ -41,3 +41,4 @@
 # Ignore application configuration
 /config/application.yml
 /config/database.yml
+/config/environments/development.rb
