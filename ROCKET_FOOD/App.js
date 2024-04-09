@@ -13,6 +13,7 @@ import Orders from './components/Orders';
 import AccountPage from './components/AccountPage';
 import CustomerAccount from './components/CustomerAccount';
 import CourierAccount from './components/CourierAccount';
+import CourierDeliveries from './components/CourierDeliveries';
 const Stack = createStackNavigator();
 const App = () => {
   const [user, setUser] = useState(null);
@@ -28,6 +29,7 @@ const App = () => {
           <Stack.Screen name="Restaurants" component={Restaurants} />
           <Stack.Screen name="RestaurantMenu" component={RestaurantMenu} />
           <Stack.Screen name="Orders" component={Orders} />
+          <Stack.Screen name="CourierDeliveries" component={CourierDeliveries} />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthContext.Provider>

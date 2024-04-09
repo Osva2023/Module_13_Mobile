@@ -16,6 +16,7 @@ const handleLogin = async (email, password, navigation, setUser) => {
     });
 
     const userData = await response.json();
+    setUser(userData);
 
     if (userData.customer_id && userData.courier_id) {
       navigation.navigate('AccountPage');

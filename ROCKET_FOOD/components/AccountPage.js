@@ -10,7 +10,7 @@ const AccountPage = () => {
     if (accountType === 'user') {
         navigation.navigate('Restaurants');
       } else if (accountType === 'courier') {
-        console.log("Navigate to Couriers Account Page");
+        navigation.navigate('CourierDeliveries');
       }
     };
 
