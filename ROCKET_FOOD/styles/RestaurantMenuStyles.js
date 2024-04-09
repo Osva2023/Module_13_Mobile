@@ -51,4 +51,20 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  emailButton: {
+    padding: 10,
+    backgroundColor: '#ddd',
+    marginRight: 10,
+  },
+  textButton: {
+    padding: 10,
+    backgroundColor: '#ddd',
+  },
+  selectedButton: {
+    padding: 10,
+    backgroundColor: '#aaa',
+  },
+  buttonText: {
+    color: '#000',
+  },
 });

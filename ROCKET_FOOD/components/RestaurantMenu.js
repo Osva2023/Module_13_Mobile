@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
-import { Modal, View, Text, TouchableOpacity, Button } from "react-native";
+import { Modal, View, Text, TouchableOpacity } from "react-native";
+import CheckBox from "@react-native-community/checkbox";
 import Icon from "react-native-vector-icons/FontAwesome";
 import AuthContext from "../services/AuthContext";
 import Layout from "./Layout";
@@ -15,7 +16,7 @@ const RestaurantMenu = ({ route }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isOrderSuccesful, setIsOrderSuccesful] = useState(false);
   const [isOrderFailed, setIsOrderFailed] = useState(false);
-
+  const [selectedValue, setSelectedValue] = useState("email");
   const createOrder = () => {
     const orderItems = menu
       .filter((item) => quantities[item.id] > 0)
@@ -129,6 +130,23 @@ const RestaurantMenu = ({ route }) => {
               <Text style={{ marginTop: 10 }}>
                 Total: ${order && convertToUSD(order.total)}
               </Text>
+              <View style={{ marginTop: 20 }}>
+  <Text>Would you like to receive your order confirmation by email and/or text?</Text>
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+    <TouchableOpacity
+      style={selectedValue === 'email' ? styles.selectedButton : styles.emailButton}
+      onPress={() => setSelectedValue('email')}
+    >
+      <Text style={styles.buttonText}>Email</Text>
+    </TouchableOpacity>
+    <TouchableOpacity
+      style={selectedValue === 'text' ? styles.selectedButton : styles.textButton}
+      onPress={() => setSelectedValue('text')}
+    >
+      <Text style={styles.buttonText}>Text</Text>
+    </TouchableOpacity>
+  </View>
+</View>
               {isOrderSuccesful ? (
                 <View style={{ alignItems: "center", marginTop: 20 }}>
                   <Icon name="check-circle" size={24} color="green" />

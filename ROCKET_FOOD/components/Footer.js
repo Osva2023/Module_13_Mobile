@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => console.log("Navigate to Restaurants")}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Restaurants')}>
           <Icon name="cutlery" size={30} color="#000" />
         </TouchableOpacity>
         <Text style={styles.buttonText}>Restaurants</Text>
