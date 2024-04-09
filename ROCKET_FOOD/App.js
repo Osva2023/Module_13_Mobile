@@ -10,7 +10,9 @@ import Restaurants from './components/Restaurants';
 import RestaurantMenu from './components/RestaurantMenu'; // Import the RestaurantMenu component
 import AuthContext from './services/AuthContext';
 import Orders from './components/Orders';
-
+import AccountPage from './components/AccountPage';
+import CustomerAccount from './components/CustomerAccount';
+import CourierAccount from './components/CourierAccount';
 const Stack = createStackNavigator();
 const App = () => {
   const [user, setUser] = useState(null);
@@ -20,6 +22,9 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+          <Stack.Screen name="AccountPage" component={AccountPage} options={{ headerShown: false }}/>
+          <Stack.Screen name="CustomerAccount" component={CustomerAccount} options={{ headerShown: false }}  />
+          <Stack.Screen name="CourierAccount" component={CourierAccount} options={{ headerShown: false }} />
           <Stack.Screen name="Restaurants" component={Restaurants} />
           <Stack.Screen name="RestaurantMenu" component={RestaurantMenu} />
           <Stack.Screen name="Orders" component={Orders} />

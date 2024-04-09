@@ -17,10 +17,12 @@ const handleLogin = async (email, password, navigation, setUser) => {
 
     const userData = await response.json();
 
-    if (userData.success) {
-      console.log('Login successful:', userData)
-      setUser(userData);
+    if (userData.customer_id && userData.courier_id) {
+      navigation.navigate('AccountPage');
+    } else if (userData.customer_id && !userData.courier_id) {
       navigation.navigate('Restaurants');
+    } else if (!userData.customer_id && userData.courier_id) {
+      navigation.navigate('CourierAccount');
     } else {
       alert('Login failed');
     }

@@ -19,6 +19,12 @@ const Footer = () => {
         </TouchableOpacity>
         <Text style={styles.buttonText}>Order History</Text>
       </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => console.log('Navigate to Accounts')}>
+          <Icon name="user" size={30} color="#000" />
+        </TouchableOpacity>
+        <Text style={styles.buttonText}>Account</Text>
+      </View>
     </View>
   );
 };
