@@ -21,8 +21,8 @@ const MyOrders = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchOrders(user.customer_id);
-      console.log(data);
+      const data = await fetchOrders(user.customer_id, "customer"); // Pass the user id and 'customer' as arguments
+      console.log(data); // Log the fetched data
       setOrders(data);
     };
     fetchData();
