@@ -17,9 +17,9 @@ import CourierDeliveries from './components/CourierDeliveries';
 const Stack = createStackNavigator();
 const App = () => {
   const [user, setUser] = useState(null);
-
+  const [userType, setUserType] = useState(null);
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser, userType, setUserType }}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
