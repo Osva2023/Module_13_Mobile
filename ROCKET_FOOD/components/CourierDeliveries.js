@@ -8,6 +8,7 @@ import modalStyles from "../styles/ModalStyles";
 import fetchOrders from "../services/fetchOrders";
 import AuthContext from "../services/AuthContext";
 import { convertToUSD } from "../services/currencyUtils";
+import updateDeliveryStatus from "../services/updateDeliveryStatus";
 const CourierDeliveries = ({ navigation }) => {
   const [deliveries, setDeliveries] = useState([]);
   const { user, setUser } = useContext(AuthContext);
@@ -41,24 +42,44 @@ const CourierDeliveries = ({ navigation }) => {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => {
             const address = item.customer_address.split(",")[0];
-
+  
             return (
               <View style={styles.row}>
                 <Text style={styles.cell}>{item.id}</Text>
                 <Text style={styles.cell}>{address}</Text>
-                <View
-                  style={[
-                    styles.cell,
-                    styles.statusCell,
-                    item.status === "pending"
-                      ? styles.pending
-                      : item.status === "in progress"
-                      ? styles.inProgress
-                      : styles.delivered,
-                  ]}
-                >
-                  <Text style={styles.statusText}>{item.status}</Text>
-                </View>
+                {item.status === "pending" || item.status === "in progress" ? (
+                  <TouchableOpacity
+                    style={[
+                      styles.cell,
+                      styles.statusCell,
+                      item.status === "pending"
+                        ? styles.pending
+                        : styles.inProgress,
+                    ]}
+                    onPress={() => {
+                      const newStatus = item.status === "pending" ? "in progress" : "delivered";
+                      updateDeliveryStatus(item.id, newStatus)
+                        .then(data => {
+                          // Handle the response data
+                        })
+                        .catch(error => {
+                          // Handle the error
+                        });
+                    }}
+                  >
+                    <Text style={styles.statusText}>{item.status}</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <View
+                    style={[
+                      styles.cell,
+                      styles.statusCell,
+                      styles.delivered,
+                    ]}
+                  >
+                    <Text style={styles.statusText}>{item.status}</Text>
+                  </View>
+                )}
                 <TouchableOpacity
                   onPress={() => {
                     setSelectedDelivery(item);
@@ -72,79 +93,7 @@ const CourierDeliveries = ({ navigation }) => {
             );
           }}
         />
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <View style={modalStyles.centeredView}>
-            <View style={modalStyles.modalView}>
-              <View style={modalStyles.modalHeader}>
-                <Text style={modalStyles.modalHeaderText}>
-                  Delivery Details:
-                </Text>
-                {selectedDelivery && (
-                  <Text style={modalStyles.status}>
-                    Status: {selectedDelivery.status}
-                  </Text>
-                )}
-                <TouchableOpacity
-                  style={modalStyles.closeButton}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                  <Text style={modalStyles.textStyle}>X</Text>
-                </TouchableOpacity>
-              </View>
-              {selectedDelivery && (
-                <>
-                  <View style={modalStyles.detailsContainer}>
-                    <Text style={modalStyles.detailText}>
-                      Delivery Address:{" "}
-                      {selectedDelivery.customer_address.split(",")[0]}
-                    </Text>
-                    <Text style={modalStyles.detailText}>
-                      Restaurant: {selectedDelivery.restaurant_name}
-                    </Text>
-                    <Text style={modalStyles.detailText}>
-                      Order Date:{" "}
-                      {new Date(
-                        selectedDelivery.created_at
-                      ).toLocaleDateString()}
-                    </Text>
-                  </View>
-                  <View style={modalStyles.orderDetailsContainer}>
-                    <Text style={modalStyles.orderDetailsHeader}>
-                      Order Details:
-                    </Text>
-                    {selectedDelivery.products.map((product, index) => (
-                      <View key={index} style={modalStyles.productRow}>
-                        <Text style={[modalStyles.productName, { flex: 3 }]}>
-                          {product.product_name}
-                        </Text>
-                        <Text
-                          style={[modalStyles.productQuantity, { flex: 1 }]}
-                        >
-                          X{product.quantity}
-                        </Text>
-                        <Text style={[modalStyles.productCost, { flex: 1 }]}>
-                          ${convertToUSD(product.unit_cost)}
-                        </Text>
-                      </View>
-                    ))}
-                  </View>
-                  <View style={modalStyles.totalContainer}>
-                    <Text style={modalStyles.totalText}>
-                      Total: ${convertToUSD(selectedDelivery.total_cost)}
-                    </Text>
-                  </View>
-                </>
-              )}
-            </View>
-          </View>
-        </Modal>
+        {/* ... */}
       </View>
     </Layout>
   );

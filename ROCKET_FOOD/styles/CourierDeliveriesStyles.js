@@ -37,21 +37,23 @@ export default StyleSheet.create({
   
   },
   pending: {
-    backgroundColor: 'red',
+    backgroundColor: '#851919',
   },
   inProgress: {
-    backgroundColor: 'orange',
+    backgroundColor: '#DA583B',
   },
   delivered: {
-    backgroundColor: 'green',
+    backgroundColor: '#609475',
   },
   statusCell: {
     flex: 1.5, // Make the cell larger
     justifyContent: 'center', // Center the text vertically
     alignItems: 'center', // Center the text horizontally
+    borderRadius: 5,
   },
   statusText: {
     textAlign: 'center', // Center the text
+    color: 'white', // Make the text white
   },
   
 });
