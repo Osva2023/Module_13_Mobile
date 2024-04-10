@@ -37,7 +37,7 @@ const CourierAccount = () => {
           placeholder="Primary Email"
           keyboardType="email-address"
           autoCapitalize="none"
-          onChangeText={setPrimaryEmail}
+          editable={false}
           value={primaryEmail}
         />
         <TextInput

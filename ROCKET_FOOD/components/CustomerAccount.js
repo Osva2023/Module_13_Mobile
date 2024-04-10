@@ -37,7 +37,7 @@ const CustomerAccount = () => {
           placeholder="Primary Email"
           keyboardType="email-address"
           autoCapitalize="none"
-          onChangeText={text => setPrimaryEmail(text)}
+          editable={false}
           value={primaryEmail}
         />
         <TextInput
