@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "../styles/CustomerAccountStyles";
 import AuthContext from "../services/AuthContext";
 import  fetchAccountInfo  from "../services/fetchAccountInfo";
+import updateAccountInfo from "../services/updateAccountInfo";
 import Layout from "../components/Layout";
 const CustomerAccount = () => {
   const { user } = useContext(AuthContext);
@@ -22,8 +23,14 @@ const CustomerAccount = () => {
    });
 
   }, []);
-  const handleUpdate = (accountType) => {
-    // Handle the press event
+  const handleUpdate = () => {
+    updateAccountInfo(user.user_id, userType, accountEmail, accountPhone)
+      .then(data => {
+        // Handle the response data
+      })
+      .catch(error => {
+        // Handle the error
+      });
   };
 
   return (

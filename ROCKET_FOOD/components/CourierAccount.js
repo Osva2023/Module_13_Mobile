@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "../styles/CourierAccountStyles";
 import AuthContext from "../services/AuthContext";
 import fetchAccountInfo from "../services/fetchAccountInfo";
+import updateAccountInfo from "../services/updateAccountInfo";
 import Layout from "../components/Layout";
 const CourierAccount = () => {
   const { user } = useContext(AuthContext);
@@ -12,7 +13,7 @@ const CourierAccount = () => {
   const [primaryEmail, setPrimaryEmail] = useState("");
   const [courierEmail, setCourierEmail] = useState("");
   const [phone, setCourierPhone] = useState("");
-  const accountType = "Courier"; // Replace with actual account type
+  
   
   useEffect(() => {
     fetchAccountInfo(user.user_id, userType)
@@ -22,8 +23,14 @@ const CourierAccount = () => {
       setCourierPhone(data.account_phone);
     });
   }, []);
-  const handleUpdate = (accountType) => {
-    // Handle the press event
+  const handleUpdate = () => {
+    updateAccountInfo(user.user_id, userType, accountEmail, accountPhone)
+      .then(data => {
+        // Handle the response data
+      })
+      .catch(error => {
+        // Handle the error
+      });
   };
 
   return (
