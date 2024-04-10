@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, Alert } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from "../styles/CourierAccountStyles";
 import AuthContext from "../services/AuthContext";
@@ -24,12 +24,14 @@ const CourierAccount = () => {
     });
   }, []);
   const handleUpdate = () => {
-    updateAccountInfo(user.user_id, userType, accountEmail, accountPhone)
+    updateAccountInfo(user.user_id, userType, courierEmail, phone)
       .then(data => {
-        // Handle the response data
+        console.log ("Updated successfully", data);
+        Alert.alert("Account Updated Successfully");
       })
       .catch(error => {
-        // Handle the error
+        console.log("Update failed", error);
+      Alert.alert('Error', 'Failed to update account');
       });
   };
 
