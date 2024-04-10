@@ -16,7 +16,8 @@ const RestaurantMenu = ({ route }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isOrderSuccesful, setIsOrderSuccesful] = useState(false);
   const [isOrderFailed, setIsOrderFailed] = useState(false);
-  const [selectedValue, setSelectedValue] = useState("email");
+  const [emailSelected, setEmailSelected] = useState(false);
+  const [textSelected, setTextSelected] = useState(false);
   const createOrder = () => {
     const orderItems = menu
       .filter((item) => quantities[item.id] > 0)
@@ -131,22 +132,34 @@ const RestaurantMenu = ({ route }) => {
                 Total: ${order && convertToUSD(order.total)}
               </Text>
               <View style={{ marginTop: 20 }}>
-  <Text>Would you like to receive your order confirmation by email and/or text?</Text>
-  <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-    <TouchableOpacity
-      style={selectedValue === 'email' ? styles.selectedButton : styles.emailButton}
-      onPress={() => setSelectedValue('email')}
-    >
-      <Text style={styles.buttonText}>Email</Text>
-    </TouchableOpacity>
-    <TouchableOpacity
-      style={selectedValue === 'text' ? styles.selectedButton : styles.textButton}
-      onPress={() => setSelectedValue('text')}
-    >
-      <Text style={styles.buttonText}>Text</Text>
-    </TouchableOpacity>
-  </View>
-</View>
+                <Text>
+                  Would you like to receive your order confirmation by email
+                  and/or text?
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <TouchableOpacity
+                    style={
+                      emailSelected ? styles.selectedButton : styles.emailButton
+                    }
+                    onPress={() => setEmailSelected(!emailSelected)}
+                  >
+                    <Text style={styles.buttonText}>Email</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={
+                      textSelected ? styles.selectedButton : styles.textButton
+                    }
+                    onPress={() => setTextSelected(!textSelected)}
+                  >
+                    <Text style={styles.buttonText}>Text</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
               {isOrderSuccesful ? (
                 <View style={{ alignItems: "center", marginTop: 20 }}>
                   <Icon name="check-circle" size={24} color="green" />
