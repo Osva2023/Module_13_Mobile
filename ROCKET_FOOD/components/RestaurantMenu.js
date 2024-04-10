@@ -18,6 +18,7 @@ const RestaurantMenu = ({ route }) => {
   const [isOrderFailed, setIsOrderFailed] = useState(false);
   const [emailSelected, setEmailSelected] = useState(false);
   const [textSelected, setTextSelected] = useState(false);
+  const [isOrderActive, setIsOrderActive] = useState(false);
   const createOrder = () => {
     const orderItems = menu
       .filter((item) => quantities[item.id] > 0)
@@ -201,7 +202,10 @@ const RestaurantMenu = ({ route }) => {
           <Text>{restaurant.name}</Text>
           <Text>Price: {String(restaurant.price_range)}</Text>
           <Text>Rating: {String(restaurant.rating)}</Text>
-          <TouchableOpacity style={styles.button} onPress={createOrder}>
+          <TouchableOpacity
+            style={isOrderActive ? styles.activeButton : styles.inactiveButton}
+            onPress={createOrder}
+          >
             <Text style={styles.buttonText}>Create Order</Text>
           </TouchableOpacity>
         </View>
@@ -217,23 +221,36 @@ const RestaurantMenu = ({ route }) => {
                 </Text>
                 <View style={styles.counterContainer}>
                   <TouchableOpacity
-                    onPress={() =>
-                      setQuantities({
+                    onPress={() => {
+                      const newQuantity = Math.max(0, quantity - 1);
+                      const newQuantities = {
                         ...quantities,
-                        [item.id]: Math.max(0, quantity - 1),
-                      })
-                    }
+                        [item.id]: newQuantity,
+                      };
+                      setQuantities(newQuantities);
+                      setIsOrderActive(
+                        Object.values(newQuantities).some((qty) => qty !== 0)
+                      );
+                    }}
                   >
-                    <Icon name="minus" size={15} color="#000" />
+                    <Icon name="minus" size={20} color="#000" />
                   </TouchableOpacity>
 
                   <Text>{quantity}</Text>
                   <TouchableOpacity
-                    onPress={() =>
-                      setQuantities({ ...quantities, [item.id]: quantity + 1 })
-                    }
+                    onPress={() => {
+                      const newQuantity = quantity + 1;
+                      const newQuantities = {
+                        ...quantities,
+                        [item.id]: newQuantity,
+                      };
+                      setQuantities(newQuantities);
+                      setIsOrderActive(
+                        Object.values(newQuantities).some((qty) => qty !== 0)
+                      );
+                    }}
                   >
-                    <Icon name="plus" size={15} color="#000" />
+                    <Icon name="plus" size={20} color="#000" />
                   </TouchableOpacity>
                 </View>
               </View>

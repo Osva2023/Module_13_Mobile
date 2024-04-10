@@ -10,7 +10,7 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
   },
-  button: {
+  inactiveButton: {
     backgroundColor: 'rgba(218, 88, 59, 0.5)',
     padding: 10,
     borderRadius: 5,
@@ -19,6 +19,16 @@ export default StyleSheet.create({
     marginTop: 10, // Add a top margin to the button style
     marginRight: 10, // Add a right margin to the button style
   },
+  activeButton: {
+    backgroundColor: 'rgba(218, 88, 59, 1)',
+    padding: 10,
+    borderRadius: 5,
+    width: 120,
+    height: 40,
+    marginTop: 10, // Add a top margin to the button style
+    marginRight: 10, // Add a right margin to the button style
+  },
+  
   buttonText: {
     color: '#fff', // Change the text color to white
     textAlign: 'center',
