@@ -1,8 +1,5 @@
-
-const { EXPO_PUBLIC_NGROK_URL } = process.env; 
-
-
-const handleLogin = async (email, password, navigation, setUser) => {
+const handleLogin = async (email, password, navigation, setUser, setUserType) => {
+  const { EXPO_PUBLIC_NGROK_URL } = process.env;
   try {
     const response = await fetch(`${EXPO_PUBLIC_NGROK_URL}/api/login`, {
       method: 'POST',
@@ -16,11 +13,17 @@ const handleLogin = async (email, password, navigation, setUser) => {
     });
 
     const userData = await response.json();
+    setUser(userData);
 
-    if (userData.success) {
-      console.log('Login successful:', userData)
-      setUser(userData);
+    if (userData.customer_id && userData.courier_id) {
+      setUserType('both');
+      navigation.navigate('AccountPage', { setUserType });
+    } else if (userData.customer_id && !userData.courier_id) {
+      setUserType('customer');
       navigation.navigate('Restaurants');
+    } else if (!userData.customer_id && userData.courier_id) {
+      setUserType('courier');
+      navigation.navigate('CourierAccount');
     } else {
       alert('Login failed');
     }

@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
-import { Modal, View, Text, TouchableOpacity, Button } from "react-native";
+import { Modal, View, Text, TouchableOpacity } from "react-native";
+import CheckBox from "@react-native-community/checkbox";
 import Icon from "react-native-vector-icons/FontAwesome";
 import AuthContext from "../services/AuthContext";
 import Layout from "./Layout";
@@ -15,7 +16,9 @@ const RestaurantMenu = ({ route }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isOrderSuccesful, setIsOrderSuccesful] = useState(false);
   const [isOrderFailed, setIsOrderFailed] = useState(false);
-
+  const [emailSelected, setEmailSelected] = useState(false);
+  const [textSelected, setTextSelected] = useState(false);
+  const [isOrderActive, setIsOrderActive] = useState(false);
   const createOrder = () => {
     const orderItems = menu
       .filter((item) => quantities[item.id] > 0)
@@ -129,6 +132,35 @@ const RestaurantMenu = ({ route }) => {
               <Text style={{ marginTop: 10 }}>
                 Total: ${order && convertToUSD(order.total)}
               </Text>
+              <View style={{ marginTop: 20 }}>
+                <Text>
+                  Would you like to receive your order confirmation by email
+                  and/or text?
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <TouchableOpacity
+                    style={
+                      emailSelected ? styles.selectedButton : styles.emailButton
+                    }
+                    onPress={() => setEmailSelected(!emailSelected)}
+                  >
+                    <Text style={styles.buttonText}>Email</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={
+                      textSelected ? styles.selectedButton : styles.textButton
+                    }
+                    onPress={() => setTextSelected(!textSelected)}
+                  >
+                    <Text style={styles.buttonText}>Text</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
               {isOrderSuccesful ? (
                 <View style={{ alignItems: "center", marginTop: 20 }}>
                   <Icon name="check-circle" size={24} color="green" />
@@ -170,7 +202,10 @@ const RestaurantMenu = ({ route }) => {
           <Text>{restaurant.name}</Text>
           <Text>Price: {String(restaurant.price_range)}</Text>
           <Text>Rating: {String(restaurant.rating)}</Text>
-          <TouchableOpacity style={styles.button} onPress={createOrder}>
+          <TouchableOpacity
+            style={isOrderActive ? styles.activeButton : styles.inactiveButton}
+            onPress={createOrder}
+          >
             <Text style={styles.buttonText}>Create Order</Text>
           </TouchableOpacity>
         </View>
@@ -186,23 +221,36 @@ const RestaurantMenu = ({ route }) => {
                 </Text>
                 <View style={styles.counterContainer}>
                   <TouchableOpacity
-                    onPress={() =>
-                      setQuantities({
+                    onPress={() => {
+                      const newQuantity = Math.max(0, quantity - 1);
+                      const newQuantities = {
                         ...quantities,
-                        [item.id]: Math.max(0, quantity - 1),
-                      })
-                    }
+                        [item.id]: newQuantity,
+                      };
+                      setQuantities(newQuantities);
+                      setIsOrderActive(
+                        Object.values(newQuantities).some((qty) => qty !== 0)
+                      );
+                    }}
                   >
-                    <Icon name="minus" size={15} color="#000" />
+                    <Icon name="minus" size={20} color="#000" />
                   </TouchableOpacity>
 
                   <Text>{quantity}</Text>
                   <TouchableOpacity
-                    onPress={() =>
-                      setQuantities({ ...quantities, [item.id]: quantity + 1 })
-                    }
+                    onPress={() => {
+                      const newQuantity = quantity + 1;
+                      const newQuantities = {
+                        ...quantities,
+                        [item.id]: newQuantity,
+                      };
+                      setQuantities(newQuantities);
+                      setIsOrderActive(
+                        Object.values(newQuantities).some((qty) => qty !== 0)
+                      );
+                    }}
                   >
-                    <Icon name="plus" size={15} color="#000" />
+                    <Icon name="plus" size={20} color="#000" />
                   </TouchableOpacity>
                 </View>
               </View>

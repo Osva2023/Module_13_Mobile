@@ -12,8 +12,14 @@ const styles = StyleSheet.create({
   },
   button: {
     flexDirection: 'column',
-    //backgroundColor: 'rgba(218, 88, 59, 0.5)',
-    borderRadius: 20, // Add round borders
+    width: 40,
+  height: 40,
+  justifyContent: 'center',
+  alignItems: 'center',
+    borderRadius: 10, // Add round borders
+  },
+  activeButton: {
+    backgroundColor: 'rgba(128, 128, 128, 0.5)',
   },
   buttonText: {
     color: '#000', // Change the text color to black

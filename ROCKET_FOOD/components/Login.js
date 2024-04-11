@@ -14,7 +14,7 @@ import handleLogin from "../services/handleLogin";
 import AuthContext from "../services/AuthContext";
 
 const Login = ({ navigation }) => {
-  const { setUser } = useContext(AuthContext);
+  const { setUser, setUserType } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -44,7 +44,7 @@ const Login = ({ navigation }) => {
 />
         <TouchableOpacity
           style={[styles.button, { backgroundColor: 'rgba(218, 88, 59, 1)' }]}
-          onPress={() => handleLogin(email, password, navigation, setUser)}
+          onPress={() => handleLogin(email, password, navigation, setUser, setUserType)}
         >
           <Text style={styles.buttonText}>Log in</Text>
         </TouchableOpacity>
