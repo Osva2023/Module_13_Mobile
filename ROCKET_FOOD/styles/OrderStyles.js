@@ -4,6 +4,9 @@ const OrderStyles = StyleSheet.create({
   container: {
     padding: 10,
   },
+  listContainer: {
+    marginBottom: 200, // Adjust this value to the height of your footer
+  },
   header: {
     fontSize: 20,
     fontWeight: "bold",
