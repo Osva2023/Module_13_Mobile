@@ -38,32 +38,23 @@ const MyOrders = () => {
   return (
     <Layout>
       <View style={OrderStyles.container}>
-      <View style={OrderStyles.listContainer}>
-  <FlatList
-    data={orders}
-    initialNumToRender={10}
-    keyExtractor={(item) => item.id.toString()}
-    ListHeaderComponent={() => (
-      <>
-        <Text style={OrderStyles.header}>My Orders</Text>
-        <View style={OrderStyles.headerContainer}>
-          <Text style={OrderStyles.headerText}>ORDER</Text>
-          <Text style={OrderStyles.headerText}>STATUS</Text>
-          <Text style={OrderStyles.headerText}>VIEW</Text>
-        </View>
-      </>
-    )}
-    renderItem={({ item }) => (
-      <View style={OrderStyles.row}>
-        <Text>{item.restaurant_name}</Text>
-        <Text>{item.status}</Text>
-        <TouchableOpacity onPress={() => handlePress(item.id)}>
-          <Icon name="search" size={20} color="#000" />
-        </TouchableOpacity>
+      <ScrollView style={OrderStyles.listContainer}>
+      <Text style={OrderStyles.header}>My Orders</Text>
+      <View style={OrderStyles.headerContainer}>
+        <Text style={OrderStyles.headerText}>ORDER</Text>
+        <Text style={OrderStyles.headerText}>STATUS</Text>
+        <Text style={OrderStyles.headerText}>VIEW</Text>
       </View>
-    )}
-  />
-</View>
+      {orders.map((item) => (
+        <View key={item.id} style={OrderStyles.row}>
+          <Text>{item.restaurant_name}</Text>
+          <Text>{item.status}</Text>
+          <TouchableOpacity onPress={() => handlePress(item.id)}>
+            <Icon name="search" size={20} color="#000" />
+          </TouchableOpacity>
+        </View>
+      ))}
+    </ScrollView>
         <Modal
           animationType="slide"
           transparent={true}

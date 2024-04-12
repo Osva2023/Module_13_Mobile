@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     
   },
 
@@ -36,8 +36,10 @@ export default StyleSheet.create({
   card: {
     borderWidth: 1,
     borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
+    padding: 5,
+    marginBottom: 5,
+    maxHeight: 220,
+    maxWidth: '60%',
   },
   cardTitle: {
     fontWeight: 'bold',
@@ -51,15 +53,18 @@ export default StyleSheet.create({
     fontStyle: 'italic',
   },
   detailsContainer: {
-    flex: 1,
+    height: 140,
+    flexDirection: 'row', // Arrange children in a row
+  justifyContent: 'space-between', // Add space between the children
   },
   menuContainer: {
-    flex: 1,
+    height: 300,
   },
   counterContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    padding: 5,
   },
   emailButton: {
     padding: 10,
@@ -76,5 +81,11 @@ export default StyleSheet.create({
   },
   buttonText: {
     color: '#000',
+  },
+  cardImage: {
+    width: '50%', // Use the full width of the card
+    height: 100, // Set a fixed height
+    resizeMode: 'cover', // Cover the whole width and height without distortion
+    borderRadius: 10, // Optional: round the corners for a softer look
   },
 });
