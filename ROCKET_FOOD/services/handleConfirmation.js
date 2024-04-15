@@ -8,6 +8,7 @@ export const handleConfirmation = async (restaurantId, customerId, products) => 
     products: products.map((item) => ({
       id: item.id,
       quantity: item.quantity,
+      
     })),
   };
 

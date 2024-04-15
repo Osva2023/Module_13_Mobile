@@ -69,10 +69,19 @@ const RestaurantMenu = ({ route }) => {
   };
   const onConfirmOrder = async () => {
     setIsProcessing(true);
+
+    let message = {};
+    if (emailSelected) {
+      message.send_email = true;
+    }
+    if (textSelected) {
+      message.send_sms = true;
+    }
     const success = await handleConfirmation(
       restaurant.id,
       user.customer_id,
-      order.items
+      order.items,
+      message
     );
     setIsProcessing(false);
     setIsOrderSuccesful(success);
