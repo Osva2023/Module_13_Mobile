@@ -31,9 +31,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   dropdownContainer: {
-    flex: 1,
+    
     flexDirection: 'column',
-    alignItems: 'flex-start',
+    //alignItems: 'flex-start',
     marginBottom: 20,
     padding: 10,
   },
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     
   },
   dropdown: {
-    flex: 1,
+    //flex: 1,
     alignSelf: 'stretch',
     backgroundColor: 'rgba(218, 88, 59, 0.5)', // change this to your desired color
     borderRadius: 10, // change this to your desired border radius

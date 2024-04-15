@@ -1,5 +1,12 @@
 import React, { useState, useContext } from "react";
-import { Modal, View, Text, TouchableOpacity } from "react-native";
+import {
+  Modal,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import Icon from "react-native-vector-icons/FontAwesome";
 import AuthContext from "../services/AuthContext";
@@ -7,6 +14,14 @@ import Layout from "./Layout";
 import styles from "../styles/RestaurantMenuStyles";
 import handleConfirmation from "../services/handleConfirmation";
 import { convertToUSD } from "../services/currencyUtils";
+import vietnamese from "../assets/vietnamese.jpg";
+import japanese from "../assets/japanese.jpg";
+import cuisinePasta from "../assets/cuisinePasta.jpg";
+import cuisinePizza from "../assets/cuisinePizza.jpg";
+import cuisineSoutheast from "../assets/cuisineSoutheast.jpg";
+import EVS_Producto from "../assets/EVS_Producto.jpg";
+import EVS7987 from "../assets/EVS7987.jpg";
+import EVS8142 from "../assets/EVS8142.jpg";
 const RestaurantMenu = ({ route }) => {
   const { menu, restaurant } = route.params;
   const { user } = useContext(AuthContext);
@@ -19,6 +34,16 @@ const RestaurantMenu = ({ route }) => {
   const [emailSelected, setEmailSelected] = useState(false);
   const [textSelected, setTextSelected] = useState(false);
   const [isOrderActive, setIsOrderActive] = useState(false);
+  const productImages = [
+    vietnamese,
+    japanese,
+    cuisinePasta,
+    cuisinePizza,
+    cuisineSoutheast,
+    EVS_Producto,
+    EVS7987,
+    EVS8142,
+  ];
   const createOrder = () => {
     const orderItems = menu
       .filter((item) => quantities[item.id] > 0)
@@ -44,16 +69,29 @@ const RestaurantMenu = ({ route }) => {
   };
   const onConfirmOrder = async () => {
     setIsProcessing(true);
+
+    let message = {};
+    if (emailSelected) {
+      message.send_email = true;
+    }
+    if (textSelected) {
+      message.send_sms = true;
+    }
     const success = await handleConfirmation(
       restaurant.id,
       user.customer_id,
-      order.items
+      order.items,
+      message
     );
     setIsProcessing(false);
     setIsOrderSuccesful(success);
     setIsOrderFailed(!success);
   };
 
+  function getRandomProductImage() {
+    const randomIndex = Math.floor(Math.random() * productImages.length);
+    return productImages[randomIndex];
+  }
   return (
     <Layout>
       <View style={styles.container}>
@@ -198,10 +236,12 @@ const RestaurantMenu = ({ route }) => {
         </Modal>
 
         <View style={styles.detailsContainer}>
-          <Text style={styles.header}>Restaurant Menu</Text>
-          <Text>{restaurant.name}</Text>
-          <Text>Price: {String(restaurant.price_range)}</Text>
-          <Text>Rating: {String(restaurant.rating)}</Text>
+          <View>
+            <Text style={styles.header}>Restaurant Menu</Text>
+            <Text>{restaurant.name}</Text>
+            <Text>Price: {String(restaurant.price_range)}</Text>
+            <Text>Rating: {String(restaurant.rating)}</Text>
+          </View>
           <TouchableOpacity
             style={isOrderActive ? styles.activeButton : styles.inactiveButton}
             onPress={createOrder}
@@ -209,11 +249,13 @@ const RestaurantMenu = ({ route }) => {
             <Text style={styles.buttonText}>Create Order</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.menuContainer}>
+        <ScrollView style={styles.menuContainer}>
           {menu.map((item) => {
             const quantity = quantities[item.id] || 0;
+            const imageUrl = getRandomProductImage(item.id); // Call the function to get the image URL
             return (
               <View key={item.id} style={styles.card}>
+                <Image source={imageUrl} style={styles.cardImage} />
                 <Text style={styles.cardTitle}>{item.name}</Text>
                 <Text style={styles.cardPrice}>${convertToUSD(item.cost)}</Text>
                 <Text style={styles.cardDescription}>
@@ -256,7 +298,7 @@ const RestaurantMenu = ({ route }) => {
               </View>
             );
           })}
-        </View>
+        </ScrollView>
       </View>
     </Layout>
   );

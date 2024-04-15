@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native';
 const OrderStyles = StyleSheet.create({
   container: {
     padding: 10,
+      maxHeight: '80%', // Limit the height of the container to 80% of the screen height
+      marginBottom: 0,
   },
   listContainer: {
     marginBottom: 200, // Adjust this value to the height of your footer
