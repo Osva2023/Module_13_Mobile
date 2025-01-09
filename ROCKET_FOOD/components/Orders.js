@@ -9,6 +9,7 @@ import {
   Modal,
 } from "react-native";
 import fetchOrders from "../services/fetchOrders";
+//for the currency conversion
 import AuthContext from "../services/AuthContext";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Layout from "./Layout";
